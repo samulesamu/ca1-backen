@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>detail</title>
+</head>
+<body>
+    <h1>{{ subject.subject_name }}</h1>
+    <ul>
+    {% for note in subject.note_set.all %}
+        <li>{{ note.name }}</li>
+    {% endfor %}
+    </ul>
+    // form to add a new note
+    <form action="{% url 'upload_file' subject.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="note_name">
+        <input type="submit" value="Add Note">
+    </form>
+
+</body>
+</html>

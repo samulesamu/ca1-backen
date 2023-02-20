@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %} home {% endblock %}
+
+{% block content %}
+    <p><a href="{% url 'add_subject' %}">add a subject</a> </p>
+    <p><a href="{% url 'upload_file' %}">upload a file</a> </p>
+    <p><a href="{% url 'index' %}">see all notes</a> </p>
+
+
+{% endblock %}
