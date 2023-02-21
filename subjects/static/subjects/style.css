@@ -1,0 +1,88 @@
+
+table, th, td {
+  border: 1px solid;
+}
+
+table, th{
+  background-color: blanchedalmond;
+}
+
+body{
+    background-color: burlywood;
+}
+
+
+.div1 .table_button{
+  width: 100%;
+  position: absolute;
+  top : 25%;
+  right: auto;
+  left: auto;
+}
+
+
+
+
+tr td{
+  background-color: lightblue;
+  text-align: center;
+  padding: 10px ;
+}
+
+
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+  font-size: 40px;
+  color: white;
+  font-family: 'Gloock', sans-serif;
+}
+
+.button a{
+  text-decoration: none;
+  font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+  color: white;
+  padding: 15px;
+  margin-right: 20px;
+  font-size: 20px;
+  background-color: black;
+  border-radius: 20px;
+}
+button{
+  background-color: black;
+  color: white;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 20px;
+  margin: 10px;
+}
+
+.buttons{
+  display: flex;
+}
+
+.button a:hover{
+  text-decoration: underline ;
+
+}
+
+.button{
+    margin-top: 40px;
+
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.form-file{
+  margin: 10px;
+  padding: 10px;
+}

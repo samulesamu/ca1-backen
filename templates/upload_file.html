@@ -1,5 +1,10 @@
+{% extends 'base.html' %}
 
+<html>
+<body>
+{% block content %}
     <h3>Upload file</h3>
+
     <div class="container">
     {% if messages %}
         {% for message in messages %}
@@ -18,8 +23,13 @@
 
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary ">Submit</button>
 
     </form>
-        <p><a href="{% url 'home' %}">home</a> </p>
+        <p class="button"><a href="{% url 'home' %}">home</a> </p>
     </div>
+
+{% endblock %}
+</body>
+
+</html>

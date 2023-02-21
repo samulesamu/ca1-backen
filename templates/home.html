@@ -3,9 +3,21 @@
 {% block title %} home {% endblock %}
 
 {% block content %}
-    <p><a href="{% url 'add_subject' %}">add a subject</a> </p>
-    <p><a href="{% url 'upload_file' %}">upload a file</a> </p>
-    <p><a href="{% url 'index' %}">see all notes</a> </p>
+    <header>
+        <h1>home</h1>
+    </header>
 
+    <div class="container">
+
+    <section  class="section-1">
+    <p><a href="{% url 'add_subject' %}">add a subject</a> </p>
+    </section>
+    <section class="section-2">
+        <p><a href="{% url 'upload_file' %}">upload a file</a> </p>
+    </section>
+    <section class="section-3">
+        <p><a href="{% url 'index' %}">see all notes</a> </p>
+    </section>
+</div>
 
 {% endblock %}
