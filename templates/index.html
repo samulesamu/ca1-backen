@@ -13,8 +13,8 @@
         <h3>uploaded files</h3>
 
         <div class="table_button">
+
             <table class="table table-striped">
-                {% if data %}
 
                 <thead>
                     <tr>
@@ -26,16 +26,17 @@
                 </thead>
                 <tbody>
                     {% for file in data %}
+                        {% if file.user == request.user %}
                     <tr>
                         <td>{{ file.name }}</td>
                         <td>{{ file.subject }}</td>
                         <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
                         <td><a href="delete/{{ file.id }}">Delete</a></td>
                     </tr>
+                    {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
-            {% endif %}
             <div class="buttons">
             <p class="button"><a href="{% url 'home' %}">home</a> </p>
             <p class="button"><a href="{% url 'upload_file' %}">upload a file</a> </p>

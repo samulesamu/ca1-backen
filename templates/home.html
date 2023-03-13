@@ -7,17 +7,29 @@
         <h1>home</h1>
     </header>
 
+    {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <p><a href="{% url 'logout' %}">Log Out</a></p>
+      <p><a href="{% url 'password_reset' %}">Reset Password</a></p>
+        <section  class="section-1">
+        <p><a href="{% url 'add_subject' %}">add a subject</a> </p>
+        </section>
+        <section class="section-2">
+            <p><a href="{% url 'upload_file' %}">upload a file</a> </p>
+        </section>
+
+    {% else %}
+      <p>You are not logged in</p>
+      <a href="{% url 'login' %}">Log In</a>
+        <a href="{% url 'signup' %}">Sign Up</a>
+    {% endif %}
     <div class="container">
 
-    <section  class="section-1">
-    <p><a href="{% url 'add_subject' %}">add a subject</a> </p>
-    </section>
-    <section class="section-2">
-        <p><a href="{% url 'upload_file' %}">upload a file</a> </p>
-    </section>
     <section class="section-3">
         <p><a href="{% url 'index' %}">see all notes</a> </p>
     </section>
+
+
 </div>
 
 {% endblock %}

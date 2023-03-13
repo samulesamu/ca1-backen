@@ -1,5 +1,6 @@
 import os
 
+from django.forms import ModelForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
@@ -18,7 +19,7 @@ def home(request):
     function to display the home page
     """
     data = Notes.objects.all()
-    form= NotesForm()
+    form= Notesform()
     form2= SubjectForm()
     if data!= '':
         context= {'form':form, 'form2': form2, 'data':data}
@@ -42,6 +43,12 @@ class IndexView(generic.ListView):
 def detail(request, subject_id):
     return HttpResponse("You're looking at subject %s." % subject_id)
 
+class Notesform(ModelForm):
+    class Meta:
+        model = Notes
+        fields = ['name', 'subject', 'file']
+
+
 def add_subject(request):
     """
     function to add subject
@@ -51,17 +58,19 @@ def add_subject(request):
             form = SubjectForm(request.POST)
 
         else:
-            form = NotesForm(request.POST, request.FILES)
+            form = Notesform(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            note.save()
             messages.success(request, 'Your subject has been added successfully')
             return redirect('home')
         else:
             messages.error(request, 'There was an error adding your subject. Please try again.')
     form = SubjectForm()
-    form2 = NotesForm()
+    form2 = Notesform()
     data = Notes.objects.all()
     return render(request, '../templates/add_subject.html', {'form': form, "form2": form2, 'data': data})
+
+
 
 
 def upload_file(request):
@@ -70,20 +79,23 @@ def upload_file(request):
     """
     if request.method == 'POST':
         if 'file' in request.FILES:
-            form = NotesForm(request.POST, request.FILES)
+            form = Notesform(request.POST, request.FILES)
         else:
             form = SubjectForm(request.POST)
         if form.is_valid():
-            form.save()
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
+            print(note.user)
             messages.success(request, 'Your file has been uploaded successfully')
             return redirect('home')
         else:
             print(form.errors)
-
             messages.error(request, 'There was an error uploading your file. Please try again.')
-
-    form = SubjectForm()
-    form2 = NotesForm()
+    else:
+        form = Notesform() # afficher le formulaire vide pour l'ajout de notes
+    user_id = request.user.id
+    form2 = Notesform()
     data = Notes.objects.all()
     return render(request, '../templates/upload_file.html', {'form': form, 'form2': form2, 'data': data})
 
@@ -102,13 +114,29 @@ class UploadFileView(generic.DetailView):
     template_name = '../templates/upload_file.html'
 
 
+
 class NotesView(generic.DetailView):
     """
     Generic class-based detail view for a note file.
     """
 
-    template_name = 'subjects/../templates/index.html'
+    template_name = 'index.html'
     context_object_name = 'latest_notes_list'
+
+class CreateNote(generic.CreateView):
+    """
+    Generic class-based create view for a note file.
+    """
+    form_class = Notesform
+    model = Notes
+    template_name = '../templates/upload_file.html'
+    success_url = '/'
+    def form_valid(self, form):
+        note = form.save(commit=False)
+        note.user = self.request.user
+        note.save()
+        return super().form_valid(form)
+
 
 
 def delete_file(request, id):
