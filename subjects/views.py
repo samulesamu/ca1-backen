@@ -60,7 +60,7 @@ def add_subject(request):
         else:
             form = Notesform(request.POST, request.FILES)
         if form.is_valid():
-            note.save()
+            form.save()
             messages.success(request, 'Your subject has been added successfully')
             return redirect('home')
         else:
