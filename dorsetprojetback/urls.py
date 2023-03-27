@@ -22,7 +22,7 @@ from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('subjects/', include('subjects.urls')),
-    path('admin/', admin.site.urls),
+    path('samuellambert3x/', admin.site.urls),
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('delete/<int:id>',views.delete_file,name='delete_file'),
     path('add_subject',views.add_subject,name='add_subject'),

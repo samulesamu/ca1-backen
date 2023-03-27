@@ -5,11 +5,15 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-
+from django.contrib.auth import authenticate, login, logout
 from .models import Subject, Notes
 from .forms import NotesForm, SubjectForm
 from django.contrib  import messages
 from django.views.generic import View
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
 
 # Create your views here.
 
@@ -49,6 +53,7 @@ class Notesform(ModelForm):
         fields = ['name', 'subject', 'file']
 
 
+
 def add_subject(request):
     """
     function to add subject
@@ -72,7 +77,7 @@ def add_subject(request):
 
 
 
-
+@login_required
 def upload_file(request):
     """
     function to upload file
@@ -85,8 +90,8 @@ def upload_file(request):
         if form.is_valid():
             note = form.save(commit=False)
             note.user = request.user
-            note.save()
             print(note.user)
+            note.save()
             messages.success(request, 'Your file has been uploaded successfully')
             return redirect('home')
         else:
@@ -106,10 +111,12 @@ class Add_SubjectView(generic.DetailView):
     model = Subject
     template_name = '../templates/add_subject.html'
 
-class UploadFileView(generic.DetailView):
+class UploadFileView(LoginRequiredMixin,generic.DetailView):
     """
     Generic class-based detail view for a note file upload.
     """
+    login_url = '/login/'
+    redirect_field_name = 'home'
     model = Notes
     template_name = '../templates/upload_file.html'
 
@@ -122,21 +129,6 @@ class NotesView(generic.DetailView):
 
     template_name = 'index.html'
     context_object_name = 'latest_notes_list'
-
-class CreateNote(generic.CreateView):
-    """
-    Generic class-based create view for a note file.
-    """
-    form_class = Notesform
-    model = Notes
-    template_name = '../templates/upload_file.html'
-    success_url = '/'
-    def form_valid(self, form):
-        note = form.save(commit=False)
-        note.user = self.request.user
-        note.save()
-        return super().form_valid(form)
-
 
 
 def delete_file(request, id):

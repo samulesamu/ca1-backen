@@ -18,13 +18,9 @@ class Subject(models.Model):
 class Notes(models.Model):
     name = models.CharField(max_length=100, default='')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='./notes/', default='')
+    file = models.FileField(upload_to='./notes/', default='', unique=False)
     date = models.DateTimeField(auto_now_add=True)
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
-
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, unique=False )
 
     def __str__(self):
         return self.name
